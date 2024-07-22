@@ -1,6 +1,6 @@
 package app.girin.trn.evm.lib.transfer
 
-import app.girin.trn.evm.lib.getAmountIn
+import app.girin.trn.evm.lib.dex.getAmountIn
 import io.ethers.core.types.BlockId
 import io.ethers.providers.Provider
 import java.math.BigDecimal

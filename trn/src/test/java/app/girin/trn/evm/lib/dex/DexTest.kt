@@ -1,4 +1,4 @@
-package app.girin.trn.evm.lib.transfer
+package app.girin.trn.evm.lib.dex
 
 import app.girin.trn.NetworkName
 import app.girin.trn.ROOT_ID
@@ -9,18 +9,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.math.BigInteger
 
-class TransferTest {
+class DexTest{
     @Test
-    fun testGetFeeProxyPricePair() {
+    fun testGetAmountIn() {
         val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
-        val res = getFeeProxyPricePair(
-            provider, BigInteger("1000000"), ROOT_ID, 0.1
-        )
-
-        assertTrue(res.maxFeePerGas.compareTo(BigInteger.ZERO) > 0)
-        assertTrue(res.maxPayment.compareTo(BigInteger.ZERO) > 0)
-        assertTrue(res.estimateGasCost.compareTo(BigInteger.ZERO) > 0)
+        val res = provider.getAmountIn(BigInteger("100000"), ROOT_ID).sendAwait().unwrap()
+        assertTrue(res.Ok.get(0).compareTo(0) > 0)
     }
 }

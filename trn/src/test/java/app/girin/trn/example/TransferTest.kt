@@ -1,19 +1,18 @@
 package app.girin.trn.example
 
+import app.girin.trn.NetworkName
+import app.girin.trn.ProviderInfo
+import app.girin.trn.ROOT_ID
 import app.girin.trn.evm.lib.ERC20_PRECOMPILE
 import app.girin.trn.evm.lib.FEE_PROXY_PRECOMPILE
-import app.girin.trn.evm.lib.NetworkName
-import app.girin.trn.evm.lib.ROOT_ID
 import app.girin.trn.evm.lib.assetIdToERC20Address
-import app.girin.trn.evm.lib.getPublicProviderInfo
 import app.girin.trn.evm.lib.transfer.getFeeProxyPricePair
+import app.girin.trn.getPublicProviderInfo
 import io.ethers.abi.AbiFunction
 import io.ethers.core.types.Address
 import io.ethers.core.types.BlockId
 import io.ethers.core.types.CallRequest
 import io.ethers.core.types.transaction.TxDynamicFee
-import io.ethers.core.types.transaction.TxLegacy
-import io.ethers.core.types.transaction.TxType
 import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
 import io.ethers.signers.PrivateKeySigner
@@ -24,7 +23,7 @@ import java.math.BigInteger
 class TransferTest {
     @Test
     fun transferNative() {
-        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI)
+        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
         val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
@@ -56,7 +55,7 @@ class TransferTest {
 
     @Test
     fun transferERC20() {
-        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI)
+        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
         val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
@@ -123,7 +122,7 @@ class TransferTest {
 
     @Test
     fun transferERC20WithFeeProxy() {
-        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI)
+        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
         val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
