@@ -34,7 +34,7 @@ android {
 
 dependencies {
     // Define a BOM and its version
-    implementation(platform("io.kriptal.ethers:ethers-bom:1.1.0-SNAPSHOT"))
+    implementation(platform("io.kriptal.ethers:ethers-bom:1.1.0"))
 
     // Define any required artifacts without version
     implementation("io.kriptal.ethers:ethers-abi")
