@@ -10,6 +10,7 @@ enum class RpcMethod(val methodName: String) {
     AuthorSubmitExtrinsic("author_submitExtrinsic"),
 
     StateGetRuntimeVersion("state_getRuntimeVersion"),
+    StateCall("state_call"),
 
     DexGetAmountsIn("dex_getAmountsIn")
 }

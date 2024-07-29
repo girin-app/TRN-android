@@ -3,7 +3,6 @@ package app.girin.trn.api.lib.types
 import app.girin.trn.api.lib.state.RuntimeVersion
 import app.girin.trn.util.bnToU8a
 import app.girin.trn.util.compactToU8a
-import io.ethers.core.FastHex
 import io.ethers.core.types.Address
 import io.ethers.core.types.Hash
 import io.ethers.crypto.Hashing
@@ -24,9 +23,7 @@ class SubmittableExtrinsic(var signature: Signature, var method: Method) {
     }
 
     fun getPayload(runtimeVersion: RuntimeVersion, genesisHash: Hash, blockHash: Hash): ByteArray {
-        var payload = method.callIndex
-        payload += bnToU8a(method.args.amount, 128)
-        payload += method.args.destination.toByteArray()
+        var payload = method.toU8a()
         payload += signature.era.mortalEra
         payload += compactToU8a(signature.nonce)
         payload += bnToU8a(signature.tip)
@@ -41,18 +38,9 @@ class SubmittableExtrinsic(var signature: Signature, var method: Method) {
     fun toU8a(): ByteArray {
         var u8a = byteArrayOf(132.toByte()) // version 4 signed(128)
 
-        val signer = signature.signer ?: throw Exception("empty signer")
-        u8a += signer.toByteArray()
+        u8a += signature.toU8a()
 
-        val sig = signature.signature ?: throw Exception("empty signature")
-        u8a += sig
-
-        u8a += signature.era.mortalEra
-        u8a += compactToU8a(signature.nonce)
-        u8a += bnToU8a(signature.tip)
-        u8a += method.callIndex
-        u8a += bnToU8a(method.args.amount, 128)
-        u8a += method.args.destination.toByteArray()
+        u8a += method.toU8a()
 
         val count = compactToU8a(u8a.size.toBigInteger())
         return count + u8a
@@ -66,27 +54,24 @@ class SubmittableExtrinsic(var signature: Signature, var method: Method) {
 
 data class Signature(
     var signer: Address?,
-    var signature: ByteArray?,
+    var signature: ByteArray? = ByteArray(65) { 1 },
     val era: MortalEra,
     val nonce: BigInteger,
     val tip: BigInteger
-)
-
-data class MortalEra(val mortalEra: ByteArray)
-
-data class Method(
-    val callIndex: ByteArray = FastHex.decode("1203"),
-    val args: WithdrawXrpArgs
 ) {
-    fun createExtrinsic(nonce: BigInteger, era: MortalEra, tip: BigInteger): SubmittableExtrinsic {
-        return SubmittableExtrinsic(
-            signature = Signature(signer = null, signature = null, era = era, nonce = nonce, tip = tip),
-            method = this
-        )
+    fun toU8a(): ByteArray {
+        val signer = this.signer ?: throw Exception("empty signer")
+        var u8a = signer.toByteArray()
+
+        val sig = this.signature ?: throw Exception("empty signature")
+        u8a += sig
+
+        u8a += era.mortalEra
+        u8a += compactToU8a(nonce)
+        u8a += bnToU8a(tip)
+
+        return u8a
     }
 }
 
-data class WithdrawXrpArgs(
-    val amount: BigInteger,
-    val destination: Address
-)
+data class MortalEra(val mortalEra: ByteArray)

@@ -12,7 +12,7 @@ import java.math.BigInteger
 
 class SubmittableExtrinsicTest {
     @Test
-    fun testSubmittableExtrinsic() {
+    fun testSubmittableExtrinsicWithMethodWithdrawXrp() {
         val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
         val signer = PrivateKeySigner(privateKeyHex)
 
@@ -34,7 +34,7 @@ class SubmittableExtrinsicTest {
                 nonce,
                 tip
             ),
-            Method(
+            MethodWithdrawXrp(
                 callIndex,
                 WithdrawXrpArgs(
                     BigInteger("1000000"),
@@ -47,12 +47,38 @@ class SubmittableExtrinsicTest {
     }
 
     @Test
+    fun testSubmittableExtrinsicWithMethodFeeProxy() {
+        val extrinsic = SubmittableExtrinsic(
+            Signature(
+                signer = Address("0x55D77A60Fd951117f531D2277a5BB4aFbE3fB292"),
+                era =  MortalEra(FastHex.decode("2603")),
+                nonce =  BigInteger("83"),
+                tip =  BigInteger.ZERO
+            ),
+            MethodFeeProxy(
+                args = FeeProxyArgs(
+                    BigInteger.ONE,
+                    BigInteger.ZERO,
+                    MethodWithdrawXrp(
+                        args = WithdrawXrpArgs(
+                            BigInteger("1000000"),
+                            Address("0x72ee785458b89d5ec64bec8410c958602e6f7673")
+                        )
+                    )
+                )
+            )
+        )
+
+        Assert.assertEquals("5d028455d77a60fd951117f531d2277a5bb4afbe3fb292010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010126034d01001f000100000000000000000000000000000000000000120340420f0000000000000000000000000072ee785458b89d5ec64bec8410c958602e6f7673", extrinsic.toU8a().toByteString().hex())
+    }
+
+    @Test
     fun testSign() {
         val callIndex = FastHex.decode("1203")
 
         val destination = Address("0x72ee785458b89d5ec64bec8410c958602e6f7673")
 
-        val method = Method(
+        val methodWithdrawXrp = MethodWithdrawXrp(
             callIndex,
             WithdrawXrpArgs(
                 BigInteger("1000000"),
@@ -63,7 +89,7 @@ class SubmittableExtrinsicTest {
         val nonce = BigInteger("52")
         val tip = BigInteger.ZERO
 
-        val extrinsic = method.createExtrinsic(nonce, mortalEra, tip)
+        val extrinsic = methodWithdrawXrp.createExtrinsic(nonce, mortalEra, tip)
 
         val runtimeVersion = RuntimeVersion("root", "root", 1, 54, 0, arrayListOf(), 9, 0)
         val genesisHash = Hash("83959f7f4262762f7599c2fa48b418b7e102f92c81fab9e6ef22ab379abdb72f")
@@ -82,7 +108,7 @@ class SubmittableExtrinsicTest {
 
         val destination = Address("0x72ee785458b89d5ec64bec8410c958602e6f7673")
 
-        val method = Method(
+        val methodWithdrawXrp = MethodWithdrawXrp(
             callIndex,
             WithdrawXrpArgs(
                 BigInteger("1000000"),
@@ -93,7 +119,7 @@ class SubmittableExtrinsicTest {
         val nonce = BigInteger("52")
         val tip = BigInteger.ZERO
 
-        val extrinsic = method.createExtrinsic(nonce, mortalEra, tip)
+        val extrinsic = methodWithdrawXrp.createExtrinsic(nonce, mortalEra, tip)
 
         val runtimeVersion = RuntimeVersion("root", "root", 1, 54, 0, arrayListOf(), 9, 0)
         val genesisHash = Hash("83959f7f4262762f7599c2fa48b418b7e102f92c81fab9e6ef22ab379abdb72f")
