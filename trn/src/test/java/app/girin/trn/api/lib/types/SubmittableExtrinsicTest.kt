@@ -89,7 +89,15 @@ class SubmittableExtrinsicTest {
         val nonce = BigInteger("52")
         val tip = BigInteger.ZERO
 
-        val extrinsic = methodWithdrawXrp.createExtrinsic(nonce, mortalEra, tip)
+        val extrinsic = SubmittableExtrinsic(
+            Signature(
+                signer = null,
+                era = mortalEra,
+                nonce = nonce,
+                tip = tip
+            ),
+            methodWithdrawXrp
+        )
 
         val runtimeVersion = RuntimeVersion("root", "root", 1, 54, 0, arrayListOf(), 9, 0)
         val genesisHash = Hash("83959f7f4262762f7599c2fa48b418b7e102f92c81fab9e6ef22ab379abdb72f")
@@ -119,7 +127,15 @@ class SubmittableExtrinsicTest {
         val nonce = BigInteger("52")
         val tip = BigInteger.ZERO
 
-        val extrinsic = methodWithdrawXrp.createExtrinsic(nonce, mortalEra, tip)
+        val extrinsic = SubmittableExtrinsic(
+            Signature(
+                signer = null,
+                era = mortalEra,
+                nonce = nonce,
+                tip = tip
+            ),
+            methodWithdrawXrp
+        )
 
         val runtimeVersion = RuntimeVersion("root", "root", 1, 54, 0, arrayListOf(), 9, 0)
         val genesisHash = Hash("83959f7f4262762f7599c2fa48b418b7e102f92c81fab9e6ef22ab379abdb72f")

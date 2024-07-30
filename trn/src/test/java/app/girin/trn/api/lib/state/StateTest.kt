@@ -19,7 +19,7 @@ class StateTest {
         Assert.assertEquals(runtimeVersion.specName, "root")
         Assert.assertEquals(runtimeVersion.implName, "root")
         Assert.assertEquals(runtimeVersion.authoringVersion, 1)
-        Assert.assertEquals(runtimeVersion.specVersion, 54)
+        Assert.assertEquals(runtimeVersion.specVersion, 55)
         Assert.assertEquals(runtimeVersion.implVersion, 0)
         Assert.assertEquals(runtimeVersion.transactionVersion, 9)
         Assert.assertEquals(runtimeVersion.stateVersion, 0)

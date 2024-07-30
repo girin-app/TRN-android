@@ -15,13 +15,6 @@ data class MethodWithdrawXrp(
     override val callIndex: ByteArray = FastHex.decode("1203"),
     val args: WithdrawXrpArgs
 ) : Method {
-    fun createExtrinsic(nonce: BigInteger, era: MortalEra, tip: BigInteger): SubmittableExtrinsic {
-        return SubmittableExtrinsic(
-            signature = Signature(signer = null, signature = null, era = era, nonce = nonce, tip = tip),
-            method = this
-        )
-    }
-
     override fun toU8a(): ByteArray {
         var u8a = callIndex
         u8a += bnToU8a(args.amount, 128)

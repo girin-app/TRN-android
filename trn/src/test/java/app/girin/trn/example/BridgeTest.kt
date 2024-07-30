@@ -52,7 +52,16 @@ class BridgeTest {
         val mortal = Mortal(current = block.block.header.number.toLong())
 
         val tip = BigInteger.ZERO
-        var extrinsic = methodWithdrawXrp.createExtrinsic(nonce.toBigInteger(), mortal.toMortalEra(), tip)
+        val extrinsic = SubmittableExtrinsic(
+            Signature(
+                signer = null,
+                signature = null,
+                era = mortal.toMortalEra(),
+                nonce = nonce.toBigInteger(),
+                tip = tip
+            ),
+            methodWithdrawXrp
+        )
 
         // 3. get sign info
         val runtimeVersion = provider.getRuntimeVersion().sendAwait().unwrap()
