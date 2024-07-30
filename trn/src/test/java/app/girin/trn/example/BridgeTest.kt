@@ -84,15 +84,14 @@ class BridgeTest {
         val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
         val signer = PrivateKeySigner(privateKeyHex)
 
-        // 1. initial bridge call method
+        // 1. initial fee proxy bridge call method
         val destination = Address("0x72ee785458b89d5ec64bec8410c958602e6f7673")
         val amount = BigInteger("1000000") // 1 XRP
 
-        // TODO calculate maxPayment
         val methodFeeProxy = MethodFeeProxy(
             args = FeeProxyArgs(
                 paymentAsset = BigInteger(ROOT_ID.toString()),
-                maxPayment = BigInteger(74708.toString()),
+                maxPayment = BigInteger(74708.toString()),      // TODO calculate maxPayment
                 call = MethodWithdrawXrp(
                     args = WithdrawXrpArgs(
                         amount,
