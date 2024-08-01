@@ -5,7 +5,6 @@ import app.girin.trn.api.lib.types.SubmittableExtrinsic
 import app.girin.trn.util.bnToU8a
 import app.girin.trn.util.decodeCompact
 import app.girin.trn.util.u8aConcatStrict
-import app.girin.trn.util.u8aToBn
 import io.ethers.core.readHexByteArray
 import io.ethers.providers.Provider
 import io.ethers.providers.RpcError
@@ -38,7 +37,7 @@ fun decodeU8aRuntimeDispatchInfo(data: ByteArray): RuntimeDispatchInfo {
     val (offset1, refTime) = decodeCompact(data)
     val (offset2, proofSize) = decodeCompact(data.copyOfRange(offset1, data.lastIndex))
     val classValue = data[offset1 + offset2].toInt()
-    val partialFee = u8aToBn(data.copyOfRange(offset1 + offset2 + 1, data.lastIndex))
+    val partialFee = BigInteger(data.copyOfRange(offset1 + offset2 + 1, data.lastIndex).reversedArray())
 
     return RuntimeDispatchInfo(Weight(refTime, proofSize), classValue, partialFee)
 }

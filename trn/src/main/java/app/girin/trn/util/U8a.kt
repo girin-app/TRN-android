@@ -51,35 +51,6 @@ fun bnToU8a(value: BigInteger, bitLength: Int = -1, isLe: Boolean = true): ByteA
     return output
 }
 
-fun u8aToBn(value: ByteArray, isLe: Boolean = true, isNegative: Boolean = false): BigInteger {
-    val count = value.size
-    val reversedValue = if (!isLe) value.reversedArray() else value
-
-    if (isNegative && count > 0 && (reversedValue[count - 1].toUByte().toUInt() and 0x80u) != 0u) {
-        return when (count) {
-            0 -> BigInteger.ZERO
-            1 -> BigInteger.valueOf(((reversedValue[0].toUByte().toInt() xor 0xFF) * -1L) - 1)
-            2 -> BigInteger.valueOf((((reversedValue[0].toUByte().toInt() + (reversedValue[1].toUByte().toInt() shl 8)) xor 0xFFFF) * -1L) - 1)
-            3 -> BigInteger.valueOf((((reversedValue[0].toUByte().toInt() + (reversedValue[1].toUByte().toInt() shl 8) + (reversedValue[2].toUByte().toInt() shl 16)) xor 0xFFFFFF) * -1L) - 1)
-            4 -> BigInteger.valueOf((((reversedValue[0].toUByte().toInt() + (reversedValue[1].toUByte().toInt() shl 8) + (reversedValue[2].toUByte().toInt() shl 16) + (reversedValue[3].toUByte().toLong() * 16777216)) xor 0xFFFFFFFFL) * -1L) - 1)
-            5 -> BigInteger.valueOf(((((reversedValue[0].toUByte().toInt() + (reversedValue[1].toUByte().toInt() shl 8) + (reversedValue[2].toUByte().toInt() shl 16) + (reversedValue[3].toUByte().toLong() * 16777216)) xor 0xFFFFFFFFL) + ((reversedValue[4].toUByte().toInt() xor 0xFF) * 4294967296L)) * -1L) - 1)
-            6 -> BigInteger.valueOf(((((reversedValue[0].toUByte().toInt() + (reversedValue[1].toUByte().toInt() shl 8) + (reversedValue[2].toUByte().toInt() shl 16) + (reversedValue[3].toUByte().toLong() * 16777216)) xor 0xFFFFFFFFL) + (((reversedValue[4].toUByte().toInt() + (reversedValue[5].toUByte().toInt() shl 8)) xor 0xFFFF) * 4294967296L)) * -1L) - 1)
-            else -> BigInteger(reversedValue.reversedArray()).shiftRight(count * 8)
-        }
-    }
-
-    return when (count) {
-        0 -> BigInteger.ZERO
-        1 -> BigInteger.valueOf(reversedValue[0].toUByte().toLong())
-        2 -> BigInteger.valueOf(reversedValue[0].toUByte().toLong() + (reversedValue[1].toUByte().toLong() shl 8))
-        3 -> BigInteger.valueOf(reversedValue[0].toUByte().toLong() + (reversedValue[1].toUByte().toLong() shl 8) + (reversedValue[2].toUByte().toLong() shl 16))
-        4 -> BigInteger.valueOf(reversedValue[0].toUByte().toLong() + (reversedValue[1].toUByte().toLong() shl 8) + (reversedValue[2].toUByte().toLong() shl 16) + (reversedValue[3].toUByte().toLong() * 16777216))
-        5 -> BigInteger.valueOf(reversedValue[0].toUByte().toLong() + (reversedValue[1].toUByte().toLong() shl 8) + (reversedValue[2].toUByte().toLong() shl 16) + ((reversedValue[3].toUByte().toLong() + (reversedValue[4].toUByte().toLong() shl 8)) * 16777216))
-        6 -> BigInteger.valueOf(reversedValue[0].toUByte().toLong() + (reversedValue[1].toUByte().toLong() shl 8) + (reversedValue[2].toUByte().toLong() shl 16) + ((reversedValue[3].toUByte().toLong() + (reversedValue[4].toUByte().toLong() shl 8) + (reversedValue[5].toUByte().toLong() shl 16)) * 16777216))
-        else -> BigInteger(reversedValue.reversedArray())
-    }
-}
-
 fun u8aConcatStrict(arr: List<ByteArray>): ByteArray {
     var length = 0
     for (u8a in arr) {

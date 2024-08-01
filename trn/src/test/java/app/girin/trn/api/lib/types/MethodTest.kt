@@ -1,6 +1,5 @@
 package app.girin.trn.api.lib.types
 
-import io.ethers.core.FastHex
 import io.ethers.core.types.Address
 import okio.ByteString.Companion.toByteString
 import org.junit.Assert
