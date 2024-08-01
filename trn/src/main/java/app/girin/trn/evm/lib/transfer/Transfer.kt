@@ -31,11 +31,11 @@ fun getFeeProxyPricePair(
     val gasCostInXRP = gasCostInEth.divide(BigInteger("1000000000000")) + if (remainder > BigInteger.ZERO) BigInteger.ONE else BigInteger.ZERO
 
     // Query the `dex` to determine the `maxPayment`
-    val res = provider.getAmountIn(gasCostInXRP, feeAssetId).sendAwait().unwrap()
+    val maxPayment = provider.getAmountIn(gasCostInXRP, feeAssetId).sendAwait().unwrap()
 
     return PricePairResult(
         estimateGasCost = gasCostInXRP,
-        maxPayment = res.Ok.get(0).toBigInteger(),
+        maxPayment = maxPayment.toBigInteger(),
         maxFeePerGas = maxFeePerGas
     )
 }

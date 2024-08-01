@@ -6,6 +6,7 @@ import app.girin.trn.api.lib.account.nextIndex
 import app.girin.trn.api.lib.author.submitExtrinsic
 import app.girin.trn.api.lib.chain.getBlock
 import app.girin.trn.api.lib.chain.getFinalizedHead
+import app.girin.trn.api.lib.state.callStateTransactionPayment
 import app.girin.trn.api.lib.state.getRuntimeVersion
 import app.girin.trn.api.lib.types.FeeProxyArgs
 import app.girin.trn.api.lib.types.MethodFeeProxy
@@ -14,6 +15,7 @@ import app.girin.trn.api.lib.types.Mortal
 import app.girin.trn.api.lib.types.Signature
 import app.girin.trn.api.lib.types.SubmittableExtrinsic
 import app.girin.trn.api.lib.types.WithdrawXrpArgs
+import app.girin.trn.evm.lib.dex.getAmountIn
 import app.girin.trn.getPublicProviderInfo
 import io.ethers.core.types.Address
 import io.ethers.providers.HttpClient
@@ -22,6 +24,7 @@ import io.ethers.signers.PrivateKeySigner
 import org.junit.Assert
 import org.junit.Test
 import java.math.BigInteger
+import kotlin.math.roundToInt
 
 class BridgeTest {
     @Test
@@ -54,8 +57,7 @@ class BridgeTest {
         val tip = BigInteger.ZERO
         val extrinsic = SubmittableExtrinsic(
             Signature(
-                signer = null,
-                signature = null,
+                signer = signer.address,
                 era = mortal.toMortalEra(),
                 nonce = nonce.toBigInteger(),
                 tip = tip
@@ -91,7 +93,7 @@ class BridgeTest {
         val methodFeeProxy = MethodFeeProxy(
             args = FeeProxyArgs(
                 paymentAsset = BigInteger(ROOT_ID.toString()),
-                maxPayment = BigInteger(74708.toString()),      // TODO calculate maxPayment
+                maxPayment = BigInteger.ZERO,
                 call = MethodWithdrawXrp(
                     args = WithdrawXrpArgs(
                         amount,
@@ -115,8 +117,7 @@ class BridgeTest {
 
         val extrinsic = SubmittableExtrinsic(
             signature = Signature(
-                signer = null,
-                signature = null,
+                signer = signer.address,
                 era = mortal.toMortalEra(),
                 nonce = nonce.toBigInteger(),
                 tip = tip
@@ -124,13 +125,23 @@ class BridgeTest {
             method = methodFeeProxy
         )
 
-        // 3. get sign info
+        // 3. fee calculate
+        // 3.1 gas simulate
+        val runtimeDispatchInfo = provider.callStateTransactionPayment(extrinsic).sendAwait().unwrap()
+
+        // 3.2 fee calculate XRP > TRN
+        val maxPaymentInt = provider.getAmountIn(runtimeDispatchInfo.partialFee, ROOT_ID).sendAwait().unwrap()
+        methodFeeProxy.args.maxPayment = (maxPaymentInt * 1.05).roundToInt().toBigInteger()
+        extrinsic.method = methodFeeProxy
+
+        // 4. get sign info
         val runtimeVersion = provider.getRuntimeVersion().sendAwait().unwrap()
 
-        // 4. sign
+
+        // 5. sign
         extrinsic.sign(signer, runtimeVersion, providerInfo.genesisHash, blockHash)
 
-        // 5. broadcast
+        // 6. broadcast
         val extrinsicHash = provider.submitExtrinsic(extrinsic.toHex()).sendAwait().unwrap()
 
         println(extrinsicHash)

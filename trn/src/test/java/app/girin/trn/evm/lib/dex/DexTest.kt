@@ -16,6 +16,6 @@ class DexTest{
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
         val res = provider.getAmountIn(BigInteger("100000"), ROOT_ID).sendAwait().unwrap()
-        assertTrue(res.Ok.get(0).compareTo(0) > 0)
+        assertTrue(res > 0)
     }
 }

@@ -8,12 +8,13 @@ import java.math.BigInteger
 
 interface Method {
     val callIndex: ByteArray
+    val args: Any
     fun toU8a(): ByteArray
 }
 
 data class MethodWithdrawXrp(
     override val callIndex: ByteArray = FastHex.decode("1203"),
-    val args: WithdrawXrpArgs
+    override val args: WithdrawXrpArgs
 ) : Method {
     override fun toU8a(): ByteArray {
         var u8a = callIndex
@@ -30,7 +31,7 @@ data class WithdrawXrpArgs(
 
 data class MethodFeeProxy(
     override val callIndex: ByteArray = FastHex.decode("1f00"),
-    val args: FeeProxyArgs
+    override var args: FeeProxyArgs
 ) : Method {
 
     override fun toU8a(): ByteArray {
@@ -44,6 +45,6 @@ data class MethodFeeProxy(
 
 data class FeeProxyArgs (
     val paymentAsset: BigInteger,
-    val maxPayment: BigInteger,
+    var maxPayment: BigInteger,
     val call: MethodWithdrawXrp
 )

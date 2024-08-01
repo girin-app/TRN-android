@@ -26,6 +26,8 @@ class AmountInDeserializer : JsonDeserializer<AmountIn>() {
     }
 }
 
-fun Provider.getAmountIn(gasCostInXRP: BigInteger, feeAssetID: Int): RpcRequest<AmountIn, RpcError> {
-    return RpcCall(client, RpcMethod.DexGetAmountsIn.methodName, arrayOf(gasCostInXRP, arrayOf(feeAssetID, XRP_ID)), AmountIn::class.java)
+fun Provider.getAmountIn(gasCostInXRP: BigInteger, feeAssetID: Int): RpcRequest<Int, RpcError> {
+    return RpcCall(client, RpcMethod.DexGetAmountsIn.methodName, arrayOf(gasCostInXRP, arrayOf(feeAssetID, XRP_ID))) { lt ->
+        lt.readValueAs(AmountIn::class.java).Ok[0]
+    }
 }
