@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    `maven-publish`
 }
 
 android {
@@ -43,4 +44,22 @@ dependencies {
     implementation("io.kriptal.ethers:ethers-signers")
 
     testImplementation(libs.junit)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.girin-app"
+                artifactId = "TRN-android"
+                version = "v0.2.1-rc2"
+
+                pom {
+                    name.set("TRN-android")
+                    description.set("The Root Network Android API")
+                }
+            }
+        }
+    }
 }
