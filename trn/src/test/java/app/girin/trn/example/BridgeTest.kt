@@ -22,11 +22,12 @@ import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
 import io.ethers.signers.PrivateKeySigner
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 import kotlin.math.roundToInt
 
-class BridgeTest {
+@Ignore("Example") class BridgeTest {
     @Test
     fun bridge() {
         val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)

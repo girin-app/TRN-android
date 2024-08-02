@@ -1,7 +1,6 @@
 package app.girin.trn.example
 
 import app.girin.trn.NetworkName
-import app.girin.trn.ProviderInfo
 import app.girin.trn.ROOT_ID
 import app.girin.trn.evm.lib.ERC20_PRECOMPILE
 import app.girin.trn.evm.lib.FEE_PROXY_PRECOMPILE
@@ -17,10 +16,11 @@ import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
 import io.ethers.signers.PrivateKeySigner
 import io.ethers.signers.sign
+import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 
-class TransferTest {
+@Ignore("Example") class TransferTest {
     @Test
     fun transferNative() {
         val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
