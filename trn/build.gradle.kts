@@ -53,7 +53,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.girin-app"
                 artifactId = "TRN-android"
-                version = "v0.2.1-rc2"
+                version = "v0.2.1"
 
                 pom {
                     name.set("TRN-android")
