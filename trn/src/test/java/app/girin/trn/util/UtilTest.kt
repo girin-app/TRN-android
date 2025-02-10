@@ -49,6 +49,18 @@ class UtilTest {
     }
 
     @Test
+    fun test_u32ToU8a() {
+        val res = u32ToU8a(9.toUInt())
+        Assert.assertEquals("09000000", res.toByteString().hex())
+    }
+
+    @Test
+    fun test_u128ToU8a() {
+        val res = u128ToU8a(1000000.toBigInteger())
+        Assert.assertEquals("40420f00000000000000000000000000", res.toByteString().hex())
+    }
+
+    @Test
     fun testcompactToU8a1() {
         val res = compactToU8a(BigInteger("65"))
         Assert.assertEquals("0501", res.toByteString().hex())

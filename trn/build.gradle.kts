@@ -35,7 +35,7 @@ android {
 
 dependencies {
     // Define a BOM and its version
-    api(platform("io.kriptal.ethers:ethers-bom:1.1.0"))
+    api(platform(libs.ethers.bom))
 
     // Define any required artifacts without version
     api(libs.ethers.abi)
@@ -53,7 +53,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.girin-app"
                 artifactId = "TRN-android"
-                version = "v0.2.1"
+                version = "v0.2.3"
 
                 pom {
                     name.set("TRN-android")

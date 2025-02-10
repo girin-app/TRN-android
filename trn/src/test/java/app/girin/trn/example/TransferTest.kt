@@ -105,7 +105,7 @@ import java.math.BigInteger
             to = rootContract,
             value = BigInteger.ZERO,
             nonce = nonce,
-            gas = gas.toLong(),
+            gas = gas,
             gasFeeCap = baseFee,
             gasTipCap = BigInteger.ZERO,
             data = encoded,
@@ -162,7 +162,12 @@ import java.math.BigInteger
             BlockId.LATEST
         ).sendAwait().unwrap()
 
-        val res = getFeeProxyPricePair(provider, gas, ROOT_ID, 0.05)
+        val res = getFeeProxyPricePair(
+            provider = provider,
+            gasEstimate = gas.toBigInteger(),
+            feeAssetId = ROOT_ID,
+            slippage = 0.05
+        )
 
         val callWithFeePreferencesFunction = AbiFunction.parseSignature(FEE_PROXY_PRECOMPILE.getAbi(FEE_PROXY_PRECOMPILE.Index.FUNCTION_CALL_WITH_FEE_PREFERENCES))
         val callWithFeePreferencesParams = arrayOf(
