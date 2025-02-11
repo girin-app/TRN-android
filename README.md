@@ -18,6 +18,6 @@ dependencyResolutionManagement {
 2. Add the dependency
 ```kt
 dependencies {
-    implementation('com.github.girin-app:TRN-android:0.2.1')
+    implementation("com.github.girin-app:TRN-android:0.2.3")
 }
 ```
