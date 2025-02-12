@@ -4,6 +4,7 @@ import io.ethers.core.types.Hash
 
 val ROOT_ID = 1
 val XRP_ID = 2
+val RLUSD_ID = 0x26864
 
 enum class NetworkName {
     ROOT, PORCINI

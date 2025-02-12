@@ -24,11 +24,12 @@ import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
 import io.ethers.signers.PrivateKeySigner
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 import kotlin.math.roundToInt
 
-class BridgeTest {
+@Ignore("Example") class BridgeTest {
     companion object{
         private const val TEST_PK_HEX = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
         private const val TEST_XRP_DESTINATION = "0x72ee785458b89d5ec64bec8410c958602e6f7673"

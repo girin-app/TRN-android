@@ -1,6 +1,7 @@
 package app.girin.trn.example
 
 import app.girin.trn.NetworkName
+import app.girin.trn.RLUSD_ID
 import app.girin.trn.ROOT_ID
 import app.girin.trn.evm.lib.ERC20_PRECOMPILE
 import app.girin.trn.evm.lib.FEE_PROXY_PRECOMPILE
@@ -21,15 +22,20 @@ import org.junit.Test
 import java.math.BigInteger
 
 @Ignore("Example") class TransferTest {
+    companion object{
+
+        private const val RECEIVER = "0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5"
+        private const val PK_HEX = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
+    }
     @Test
     fun transferNative() {
         val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
-        val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
+        val privateKeyHex = PK_HEX
         val signer = PrivateKeySigner(privateKeyHex)
 
-        val receiver = Address("0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5")
+        val receiver = Address(RECEIVER)
 
         val nonce = provider.getTransactionCount(signer.address, BlockId.LATEST).sendAwait().unwrap()
 
@@ -55,20 +61,20 @@ import java.math.BigInteger
 
     @Test
     fun transferERC20() {
-        val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
+        val providerInfo = getPublicProviderInfo(NetworkName.ROOT, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
-        val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
+        val privateKeyHex = PK_HEX
         val signer = PrivateKeySigner(privateKeyHex)
 
-        val receiver = Address("0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5")
+        val receiver = Address(RECEIVER)
 
-        val rootContract = assetIdToERC20Address(ROOT_ID)
+        val erc20Contract = assetIdToERC20Address(RLUSD_ID)
 
         val decimalFunction = AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_DECIMALS))
         val decimalRes = provider.call(
             CallRequest().apply {
-                to = rootContract
+                to = erc20Contract
                 data = decimalFunction.encodeCall(emptyArray())
             },
             BlockId.LATEST
@@ -89,7 +95,7 @@ import java.math.BigInteger
         val gas = provider.estimateGas(
             CallRequest().apply {
                 from = signer.address
-                to = rootContract
+                to = erc20Contract
                 data = encoded
             },
             BlockId.LATEST
@@ -102,7 +108,7 @@ import java.math.BigInteger
             provider.getBlockWithHashes(BlockId.LATEST).sendAwait().unwrap().get().baseFeePerGas!!
 
         val tx = TxDynamicFee(
-            to = rootContract,
+            to = erc20Contract,
             value = BigInteger.ZERO,
             nonce = nonce,
             gas = gas,
@@ -125,10 +131,10 @@ import java.math.BigInteger
         val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)
         val provider = Provider(HttpClient(providerInfo.url), providerInfo.chainId)
 
-        val privateKeyHex = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
+        val privateKeyHex = PK_HEX
         val signer = PrivateKeySigner(privateKeyHex)
 
-        val receiver = Address("0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5")
+        val receiver = Address(RECEIVER)
 
         val rootContract = assetIdToERC20Address(ROOT_ID)
 
