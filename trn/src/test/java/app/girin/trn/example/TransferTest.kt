@@ -1,7 +1,6 @@
 package app.girin.trn.example
 
 import app.girin.trn.NetworkName
-import app.girin.trn.RLUSD_ID
 import app.girin.trn.ROOT_ID
 import app.girin.trn.evm.lib.ERC20_PRECOMPILE
 import app.girin.trn.evm.lib.FEE_PROXY_PRECOMPILE
@@ -69,7 +68,8 @@ import java.math.BigInteger
 
         val receiver = Address(RECEIVER)
 
-        val erc20Contract = assetIdToERC20Address(RLUSD_ID)
+        //RLUSD
+        val erc20Contract = assetIdToERC20Address(0x26864)
 
         val decimalFunction = AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_DECIMALS))
         val decimalRes = provider.call(
