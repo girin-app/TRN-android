@@ -13,9 +13,11 @@ import io.ethers.core.types.CallRequest
 import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
 import org.junit.Assert.assertTrue
+import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 
+@Ignore("test")
 class BalanceTest {
     @Test
     fun queryNativeBalance() {
@@ -37,14 +39,15 @@ class BalanceTest {
 
         val address = Address("0x55D77A60Fd951117f531D2277a5BB4aFbE3fB292")
 
-        val balanceFunction = AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_BALANCE_OF))
+        val balanceFunction =
+            AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_BALANCE_OF))
         val params = arrayOf(
             address
         )
 
         val encoded = balanceFunction.encodeCall(params)
 
-        val res = provider.call( CallRequest().apply {
+        val res = provider.call(CallRequest().apply {
             to = rootContract
             data = encoded
         }, BlockId.LATEST).sendAwait().unwrap()

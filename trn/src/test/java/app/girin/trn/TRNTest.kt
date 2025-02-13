@@ -1,5 +1,7 @@
 package app.girin.trn
 
+import io.ethers.providers.HttpClient
+import io.ethers.providers.Provider
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -67,6 +69,5 @@ class TRNTest {
         assertEquals(7672, providerInfo.chainId)
         assertEquals("0x83959f7f4262762f7599c2fa48b418b7e102f92c81fab9e6ef22ab379abdb72f", providerInfo.genesisHash.toString())
     }
-
 
 }

@@ -42,7 +42,7 @@ dependencies {
     api(libs.ethers.core)
     api(libs.ethers.providers)
     api(libs.ethers.signers)
-
+    implementation(libs.bcprov.jdk18on)
     testImplementation(libs.junit)
 }
 

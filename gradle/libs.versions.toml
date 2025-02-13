@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+bcprovJdk18on = "1.79"
 ethersBom = "1.2.1"
 kotlin = "2.1.0"
 coreKtx = "1.15.0"
@@ -11,6 +12,7 @@ jetbrainsKotlinJvm = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+bcprov-jdk18on = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bcprovJdk18on" }
 ethers-abi = { module = "io.kriptal.ethers:ethers-abi" }
 ethers-bom = { module = "io.kriptal.ethers:ethers-bom", version.ref = "ethersBom" }
 ethers-core = { module = "io.kriptal.ethers:ethers-core" }
