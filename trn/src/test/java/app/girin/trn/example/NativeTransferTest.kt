@@ -47,7 +47,7 @@ class NativeTransferTest {
         val signer = PrivateKeySigner(PK_HEX)
 
         // 1. initial bridge call method
-        val destination = Address("0x784c245295885e8bf48711d431a880a09246da35")
+        val destination = Address(RECEIVER)
         val amount = BigInteger("1000000") // 1Root
         val call = BalanceTransfer.create(target = destination, amount = amount)
 
@@ -97,7 +97,7 @@ class NativeTransferTest {
         // 1. initial bridge call method
 
 
-        val destination = Address("0x784c245295885e8bf48711d431a880a09246da35")
+        val destination = Address(RECEIVER)
         val amount = BigInteger("1000000") // 1Root
         val call = FeeProxy.create(
             paymentAsset = ROOT_ID.toUInt(),
@@ -164,7 +164,7 @@ class NativeTransferTest {
                 .sendAwait().unwrap().let { AssetMetadata.decode(it) }
 
 
-        val destination = Address("0x784c245295885e8bf48711d431a880a09246da35")
+        val destination = Address(RECEIVER)
         val amount = BigDecimal("1").movePointRight(metadata.decimals).toBigInteger() // 1XRP
         val call =
             TokenTransfer.create(assetId = XRP_ID.toUInt(), target = destination, amount = amount)
@@ -219,7 +219,7 @@ class NativeTransferTest {
                 .sendAwait().unwrap().let { AssetMetadata.decode(it) }
 
 
-        val destination = Address("0x784c245295885e8bf48711d431a880a09246da35")
+        val destination = Address(RECEIVER)
         val amount = BigDecimal("1").movePointRight(metadata.decimals).toBigInteger() // 1XRP
         val call = FeeProxy.create(
             paymentAsset = ROOT_ID.toUInt(),

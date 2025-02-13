@@ -20,10 +20,12 @@ import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 
-@Ignore class Erc20TransferTest {
-    companion object{
+@Ignore
+class Erc20TransferTest {
+    companion object {
         private const val RECEIVER = "0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5"
-        private const val PK_HEX = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
+        private const val PK_HEX =
+            "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
     }
 
     @Test
@@ -36,9 +38,11 @@ import java.math.BigInteger
 
         val receiver = Address(RECEIVER)
 
-        val nonce = provider.getTransactionCount(signer.address, BlockId.LATEST).sendAwait().unwrap()
+        val nonce =
+            provider.getTransactionCount(signer.address, BlockId.LATEST).sendAwait().unwrap()
 
-        val baseFee = provider.getBlockWithHashes(BlockId.LATEST).sendAwait().unwrap().get().baseFeePerGas!!
+        val baseFee =
+            provider.getBlockWithHashes(BlockId.LATEST).sendAwait().unwrap().get().baseFeePerGas!!
 
         val tx = TxDynamicFee(
             to = receiver,
@@ -71,7 +75,8 @@ import java.math.BigInteger
         //RLUSD
         val erc20Contract = assetIdToERC20Address(0x26864)
 
-        val decimalFunction = AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_DECIMALS))
+        val decimalFunction =
+            AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_DECIMALS))
         val decimalRes = provider.call(
             CallRequest().apply {
                 to = erc20Contract
@@ -138,7 +143,8 @@ import java.math.BigInteger
 
         val rootContract = assetIdToERC20Address(ROOT_ID)
 
-        val decimalFunction = AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_DECIMALS))
+        val decimalFunction =
+            AbiFunction.parseSignature(ERC20_PRECOMPILE.getAbi(ERC20_PRECOMPILE.Index.FUNCTION_DECIMALS))
         val decimalRes = provider.call(
             CallRequest().apply {
                 to = rootContract
@@ -175,25 +181,26 @@ import java.math.BigInteger
             slippage = 0.05
         )
 
-        val callWithFeePreferencesFunction = AbiFunction.parseSignature(FEE_PROXY_PRECOMPILE.getAbi(FEE_PROXY_PRECOMPILE.Index.FUNCTION_CALL_WITH_FEE_PREFERENCES))
+        val callWithFeePreferencesFunction =
+            AbiFunction.parseSignature(FEE_PROXY_PRECOMPILE.getAbi(FEE_PROXY_PRECOMPILE.Index.FUNCTION_CALL_WITH_FEE_PREFERENCES))
         val callWithFeePreferencesParams = arrayOf(
             rootContract,
             res.maxPayment,
             rootContract,
             transferEncoded
         )
-        val callWithFeePreferencesEncoded = callWithFeePreferencesFunction.encodeCall(callWithFeePreferencesParams)
+        val callWithFeePreferencesEncoded =
+            callWithFeePreferencesFunction.encodeCall(callWithFeePreferencesParams)
 
         val nonce =
             provider.getTransactionCount(signer.address, BlockId.LATEST).sendAwait().unwrap()
-
 
 
         val tx = TxDynamicFee(
             to = FEE_PROXY_PRECOMPILE.address,
             value = BigInteger.ZERO,
             nonce = nonce,
-            gas = gas.toLong(),
+            gas = gas,
             gasFeeCap = res.maxFeePerGas,
             gasTipCap = BigInteger.ZERO,
             data = callWithFeePreferencesEncoded,

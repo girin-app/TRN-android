@@ -27,8 +27,8 @@ class SubmittableExtrinsic(var signature: Signature, var call: Call) {
         payload += signature.era.mortalEra
         payload += compactToU8a(signature.nonce)
         payload += bnToU8a(signature.tip)
-        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.specVersion.toLong()), 32)
-        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.transactionVersion.toLong()), 32)
+        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.specVersion), 32)
+        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.transactionVersion), 32)
         payload += genesisHash.toByteArray()
         payload += blockHash.toByteArray()
 
