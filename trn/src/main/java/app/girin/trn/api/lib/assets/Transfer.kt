@@ -1,6 +1,6 @@
 package app.girin.trn.api.lib.assets
 
-import app.girin.trn.api.lib.types.Method
+import app.girin.trn.api.lib.types.Call
 import app.girin.trn.api.lib.types.SeedPrimitivesSignatureAccountId20
 import app.girin.trn.api.lib.types.u128
 import app.girin.trn.api.lib.types.u32
@@ -12,7 +12,7 @@ class Transfer(
     override val callIndex: ByteArray = FastHex.decode("0608"),
     override val args: TransferArgs
 
-) : Method {
+) : Call {
 
     class TransferArgs(
         val assetId: u32,
@@ -22,7 +22,7 @@ class Transfer(
 
     override fun toU8a(): ByteArray {
         val amount = compactToU8a(args.amount)
-        val u8a = ByteArray(2 + 4 + 20 + amount.size)
+        val u8a = ByteArray(26 + amount.size)
         callIndex.copyInto(u8a) //offset: 0
         u32ToU8a(args.assetId).copyInto(u8a, 2)
         args.target.toByteArray().copyInto(u8a, 6)
@@ -35,7 +35,7 @@ class Transfer(
             assetId: u32,
             target: SeedPrimitivesSignatureAccountId20,
             amount: u128
-        ): Method {
+        ): Call {
             return Transfer(
                 args = TransferArgs(
                     assetId = assetId,

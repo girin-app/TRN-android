@@ -1,7 +1,7 @@
 package app.girin.trn.api.lib.xrplbridge
 
 import app.girin.trn.api.lib.types.H160
-import app.girin.trn.api.lib.types.Method
+import app.girin.trn.api.lib.types.Call
 import app.girin.trn.api.lib.types.u128
 import app.girin.trn.api.lib.types.u32
 import app.girin.trn.util.u128ToU8a
@@ -19,7 +19,7 @@ import io.ethers.core.FastHex
 class Withdraw(
     override val callIndex: ByteArray = FastHex.decode("120f"),
     override val args: WithdrawArgs
-) : Method {
+) : Call {
 
     override fun toU8a(): ByteArray {
         val u8a = ByteArray(2 + args.byteLength)
@@ -50,7 +50,7 @@ class Withdraw(
             amount: u128,
             destination: H160,
             destinationTag: u32? = null
-        ): Method {
+        ): Call {
             return Withdraw(
                 args = WithdrawArgs(
                     assetId = assetId,

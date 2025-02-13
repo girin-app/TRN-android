@@ -20,12 +20,12 @@ import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 
-class TransferTest {
+@Ignore class Erc20TransferTest {
     companion object{
-
         private const val RECEIVER = "0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5"
         private const val PK_HEX = "0xf28c395640d7cf3a8b415d12f741a0299b34cb0c7af7d2ba6440d9f2d3880d65"
     }
+
     @Test
     fun transferNative() {
         val providerInfo = getPublicProviderInfo(NetworkName.PORCINI, false, false)

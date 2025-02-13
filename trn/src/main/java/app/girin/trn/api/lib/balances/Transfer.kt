@@ -1,6 +1,6 @@
 package app.girin.trn.api.lib.balances
 
-import app.girin.trn.api.lib.types.Method
+import app.girin.trn.api.lib.types.Call
 import app.girin.trn.api.lib.types.SeedPrimitivesSignatureAccountId20
 import app.girin.trn.api.lib.types.u128
 import app.girin.trn.util.compactToU8a
@@ -10,7 +10,7 @@ class Transfer(
     override val callIndex: ByteArray = FastHex.decode("0507"),
     override val args: TransferArgs
 
-) : Method {
+) : Call {
 
     class TransferArgs(
         val target: SeedPrimitivesSignatureAccountId20,
@@ -30,7 +30,7 @@ class Transfer(
         fun create(
             target: SeedPrimitivesSignatureAccountId20,
             amount: u128
-        ): Method {
+        ): Call {
             return Transfer(
                 args = TransferArgs(
                     target = target,

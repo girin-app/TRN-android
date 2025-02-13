@@ -1,5 +1,6 @@
 package app.girin.trn.api.lib.types
 
+import app.girin.trn.ROOT_ID
 import app.girin.trn.api.lib.feeproxy.FeeProxy
 import app.girin.trn.api.lib.xrplbridge.Withdraw
 import app.girin.trn.api.lib.xrplbridge.WithdrawXrp
@@ -9,18 +10,16 @@ import org.junit.Assert
 import org.junit.Test
 import java.math.BigInteger
 
-class MethodTest {
+class CallTest {
     @Test
     fun testFeeProxyMethod() {
-        val method = FeeProxy(
-            args = FeeProxy.FeeProxyArgs(
-                BigInteger.ONE,
+        val method = FeeProxy.create(
+                ROOT_ID.toUInt(),
                 BigInteger.ZERO,
                 WithdrawXrp.create(
                     BigInteger("1000000"),
                     Address("0x72ee785458b89d5ec64bec8410c958602e6f7673")
                 )
-            )
         )
 
         Assert.assertEquals(
