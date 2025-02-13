@@ -11,6 +11,7 @@ enum class RpcMethod(val methodName: String) {
 
     StateGetRuntimeVersion("state_getRuntimeVersion"),
     StateCall("state_call"),
+    StateGetStorage("state_getStorage"),
 
     DexGetAmountsIn("dex_getAmountsIn")
 }

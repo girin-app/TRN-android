@@ -4,9 +4,9 @@ import app.girin.trn.api.lib.types.u128
 import app.girin.trn.api.lib.types.u32
 import java.math.BigInteger
 
-val MAX_U8 = BigInteger("2").pow(6) // 64
-val MAX_U16 = BigInteger("2").pow(14) // 16384
-val MAX_U32 = BigInteger("2").pow(30) // 1073741824
+val MAX_U8 = BigInteger("64")
+val MAX_U16 = BigInteger("16384")
+val MAX_U32 = BigInteger("1073741824")
 
 fun bnToU8aLittleEndian(value: BigInteger, bitLength: Int): ByteArray {
     val data = bnToU8a(value)
@@ -209,4 +209,8 @@ fun compactFromU8aLim(u8a: ByteArray): Pair<Int, BigInteger> {
             }
         }
     }
+}
+
+fun decodeCompactLength(compactValue : Int) : Int {
+    return compactValue shr 2 // Right-shift by 2 bits
 }

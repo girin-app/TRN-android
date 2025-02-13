@@ -11,7 +11,7 @@ import okio.ByteString.Companion.toByteString
 import java.math.BigInteger
 
 
-class SubmittableExtrinsic(var signature: Signature, var method: Method) {
+class SubmittableExtrinsic(var signature: Signature, var call: Call) {
 
     fun sign(privateKey: PrivateKeySigner, runtimeVersion: RuntimeVersion, genesisHash: Hash, blockHash: Hash) {
         val payload = getPayload(runtimeVersion, genesisHash, blockHash)
@@ -23,12 +23,12 @@ class SubmittableExtrinsic(var signature: Signature, var method: Method) {
     }
 
     fun getPayload(runtimeVersion: RuntimeVersion, genesisHash: Hash, blockHash: Hash): ByteArray {
-        var payload = method.toU8a()
+        var payload = call.toU8a()
         payload += signature.era.mortalEra
         payload += compactToU8a(signature.nonce)
         payload += bnToU8a(signature.tip)
-        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.specVersion.toLong()), 32)
-        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.transactionVersion.toLong()), 32)
+        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.specVersion), 32)
+        payload += bnToU8a(BigInteger.valueOf(runtimeVersion.transactionVersion), 32)
         payload += genesisHash.toByteArray()
         payload += blockHash.toByteArray()
 
@@ -40,7 +40,7 @@ class SubmittableExtrinsic(var signature: Signature, var method: Method) {
 
         u8a += signature.toU8a()
 
-        u8a += method.toU8a()
+        u8a += call.toU8a()
 
         val count = compactToU8a(u8a.size.toBigInteger())
         return count + u8a
