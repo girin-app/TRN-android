@@ -2,11 +2,12 @@ package app.girin.trn.api.lib.state
 
 import app.girin.trn.NetworkName
 import app.girin.trn.ROOT_ID
+import app.girin.trn.XRP_ID
 import app.girin.trn.api.lib.feeproxy.FeeProxy
 import app.girin.trn.api.lib.types.MortalEra
 import app.girin.trn.api.lib.types.Signature
 import app.girin.trn.api.lib.types.SubmittableExtrinsic
-import app.girin.trn.api.lib.xrplbridge.WithdrawXrp
+import app.girin.trn.api.lib.xrplbridge.Withdraw
 import app.girin.trn.getPublicProviderInfo
 import io.ethers.core.FastHex
 import io.ethers.core.types.Address
@@ -49,7 +50,8 @@ class StateTest {
             FeeProxy.create(
                 ROOT_ID.toUInt(),
                 BigInteger.ZERO,
-                WithdrawXrp.create(
+                Withdraw.create(
+                    assetId = XRP_ID.toUInt(),
                     BigInteger("1000000"),
                     Address("0x72ee785458b89d5ec64bec8410c958602e6f7673")
                 )

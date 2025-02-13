@@ -2,6 +2,7 @@ package app.girin.trn.example
 
 import app.girin.trn.NetworkName
 import app.girin.trn.ROOT_ID
+import app.girin.trn.XRP_ID
 import app.girin.trn.api.lib.account.nextIndex
 import app.girin.trn.api.lib.chain.getBlock
 import app.girin.trn.api.lib.chain.getFinalizedHead
@@ -13,7 +14,6 @@ import app.girin.trn.api.lib.types.Mortal
 import app.girin.trn.api.lib.types.Signature
 import app.girin.trn.api.lib.types.SubmittableExtrinsic
 import app.girin.trn.api.lib.xrplbridge.Withdraw
-import app.girin.trn.api.lib.xrplbridge.WithdrawXrp
 import app.girin.trn.evm.lib.dex.getAmountIn
 import app.girin.trn.getPublicProviderInfo
 import io.ethers.core.types.Address
@@ -45,7 +45,7 @@ class BridgeTest {
         // 1. initial bridge call method
         val destination = Address(TEST_XRP_DESTINATION)
         val amount = BigInteger("1000000") // 1XRP
-        val methodWithdrawXrp = WithdrawXrp.create(amount, destination)
+        val methodWithdrawXrp = Withdraw.create(assetId = XRP_ID.toUInt(), amount, destination)
 
         // 2. create Extrinsic
         // 2.1 nonce
