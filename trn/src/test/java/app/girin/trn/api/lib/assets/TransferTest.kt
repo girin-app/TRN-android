@@ -1,7 +1,7 @@
 package app.girin.trn.api.lib.assets
 
 import app.girin.trn.NetworkName
-import app.girin.trn.api.lib.rpc.stateGetStorage
+import app.girin.trn.rpc.stateGetStorage
 import app.girin.trn.getPublicProviderInfo
 import io.ethers.core.FastHex
 import io.ethers.core.types.Address
@@ -43,7 +43,7 @@ class TransferTest {
          */
         val storageData = FastHex.decode("0000000000000000000000000000000010526f6f7410524f4f540600")
 
-        AssetMetadata.decode(storageData).let {
+        Metadata.decode(storageData).let {
             assertEquals(BigInteger.ZERO, it.deposit)
             assertEquals("Root", it.name)
             assertEquals("ROOT", it.symbol)
@@ -60,10 +60,10 @@ class TransferTest {
 
         val assetId = 1U
 
-        val query = Metadata.create(assetId)
+        val query = QueryMetadata.create(assetId)
 
         val metaData = provider.stateGetStorage(query.getStorageKey()).sendAwait().unwrap()
-            .let { AssetMetadata.decode(it) }
+            .let { Metadata.decode(it) }
 
         metaData.let {
             assertEquals(BigInteger.ZERO, it.deposit)

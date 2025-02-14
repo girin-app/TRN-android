@@ -11,7 +11,6 @@ import io.ethers.core.FastHex
 class Transfer(
     override val callIndex: ByteArray = FastHex.decode("0608"),
     override val args: TransferArgs
-
 ) : Call {
 
     class TransferArgs(

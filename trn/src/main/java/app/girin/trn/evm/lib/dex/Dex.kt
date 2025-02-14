@@ -1,6 +1,6 @@
 package app.girin.trn.evm.lib.dex
 
-import app.girin.trn.RpcMethod
+import app.girin.trn.rpc.RpcMethod
 import app.girin.trn.XRP_ID
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

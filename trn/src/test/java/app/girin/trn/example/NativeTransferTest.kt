@@ -3,21 +3,20 @@ package app.girin.trn.example
 import app.girin.trn.NetworkName
 import app.girin.trn.ROOT_ID
 import app.girin.trn.XRP_ID
-import app.girin.trn.api.lib.account.nextIndex
-import app.girin.trn.api.lib.assets.AssetMetadata
-import app.girin.trn.api.lib.assets.Metadata
+import app.girin.trn.api.lib.assets.QueryMetadata
+import app.girin.trn.api.lib.assets.getMetadata
 import app.girin.trn.api.lib.chain.getBlock
 import app.girin.trn.api.lib.chain.getFinalizedHead
 import app.girin.trn.api.lib.feeproxy.FeeProxy
-import app.girin.trn.api.lib.rpc.stateGetStorage
-import app.girin.trn.api.lib.rpc.submitExtrinsic
-import app.girin.trn.api.lib.state.callStateTransactionPayment
-import app.girin.trn.api.lib.state.getRuntimeVersion
+import app.girin.trn.api.lib.transactionpayment.callStateTransactionPayment
+import app.girin.trn.api.lib.transactionpayment.getRuntimeVersion
 import app.girin.trn.api.lib.types.Mortal
 import app.girin.trn.api.lib.types.Signature
 import app.girin.trn.api.lib.types.SubmittableExtrinsic
 import app.girin.trn.evm.lib.dex.getAmountIn
 import app.girin.trn.getPublicProviderInfo
+import app.girin.trn.rpc.nextIndex
+import app.girin.trn.rpc.submitExtrinsic
 import io.ethers.core.types.Address
 import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
@@ -159,9 +158,7 @@ class NativeTransferTest {
 
         // 1. initial bridge call method
         val metadata =
-            provider
-                .stateGetStorage(Metadata.create(XRP_ID.toUInt()).getStorageKey())
-                .sendAwait().unwrap().let { AssetMetadata.decode(it) }
+            provider.getMetadata(QueryMetadata.create(XRP_ID.toUInt())).sendAwait().unwrap()
 
 
         val destination = Address(RECEIVER)
@@ -215,8 +212,8 @@ class NativeTransferTest {
         // 1. initial bridge call method
         val metadata =
             provider
-                .stateGetStorage(Metadata.create(XRP_ID.toUInt()).getStorageKey())
-                .sendAwait().unwrap().let { AssetMetadata.decode(it) }
+                .getMetadata(QueryMetadata.create(XRP_ID.toUInt()))
+                .sendAwait().unwrap()
 
 
         val destination = Address(RECEIVER)

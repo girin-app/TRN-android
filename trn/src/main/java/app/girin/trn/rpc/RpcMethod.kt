@@ -1,4 +1,4 @@
-package app.girin.trn
+package app.girin.trn.rpc
 
 enum class RpcMethod(val methodName: String) {
     AccountNextIndex("account_nextIndex"),

@@ -3,7 +3,7 @@ package app.girin.trn.api.lib.types
 import app.girin.trn.ROOT_ID
 import app.girin.trn.XRP_ID
 import app.girin.trn.api.lib.feeproxy.FeeProxy
-import app.girin.trn.api.lib.state.RuntimeVersion
+import app.girin.trn.api.lib.transactionpayment.RuntimeVersion
 import app.girin.trn.api.lib.xrplbridge.Withdraw
 import io.ethers.core.FastHex
 import io.ethers.core.types.Address

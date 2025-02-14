@@ -1,6 +1,6 @@
-package app.girin.trn.api.lib.state
+package app.girin.trn.api.lib.transactionpayment
 
-import app.girin.trn.RpcMethod
+import app.girin.trn.rpc.RpcMethod
 import app.girin.trn.api.lib.types.SubmittableExtrinsic
 import app.girin.trn.util.bnToU8a
 import app.girin.trn.util.decodeCompact

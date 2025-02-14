@@ -1,12 +1,11 @@
 package app.girin.trn.api.lib.account
 
 import app.girin.trn.NetworkName
+import app.girin.trn.rpc.nextIndex
 import app.girin.trn.getPublicProviderInfo
-import io.ethers.abi.AbiType
 import io.ethers.core.types.Address
 import io.ethers.providers.HttpClient
 import io.ethers.providers.Provider
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

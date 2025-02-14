@@ -1,6 +1,6 @@
 package app.girin.trn.api.lib.chain
 
-import app.girin.trn.RpcMethod
+import app.girin.trn.rpc.RpcMethod
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

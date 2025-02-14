@@ -20,7 +20,7 @@ import org.junit.Ignore
 import org.junit.Test
 import java.math.BigInteger
 
-@Ignore
+@Ignore("example")
 class Erc20TransferTest {
     companion object {
         private const val RECEIVER = "0xE2640ae2A8DFeCB460C1062425b5FD314B6E60D5"

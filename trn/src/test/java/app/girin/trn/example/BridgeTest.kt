@@ -3,13 +3,13 @@ package app.girin.trn.example
 import app.girin.trn.NetworkName
 import app.girin.trn.ROOT_ID
 import app.girin.trn.XRP_ID
-import app.girin.trn.api.lib.account.nextIndex
+import app.girin.trn.rpc.nextIndex
 import app.girin.trn.api.lib.chain.getBlock
 import app.girin.trn.api.lib.chain.getFinalizedHead
 import app.girin.trn.api.lib.feeproxy.FeeProxy
-import app.girin.trn.api.lib.rpc.submitExtrinsic
-import app.girin.trn.api.lib.state.callStateTransactionPayment
-import app.girin.trn.api.lib.state.getRuntimeVersion
+import app.girin.trn.rpc.submitExtrinsic
+import app.girin.trn.api.lib.transactionpayment.callStateTransactionPayment
+import app.girin.trn.api.lib.transactionpayment.getRuntimeVersion
 import app.girin.trn.api.lib.types.Mortal
 import app.girin.trn.api.lib.types.Signature
 import app.girin.trn.api.lib.types.SubmittableExtrinsic

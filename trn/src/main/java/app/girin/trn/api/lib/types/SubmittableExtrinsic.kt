@@ -1,6 +1,6 @@
 package app.girin.trn.api.lib.types
 
-import app.girin.trn.api.lib.state.RuntimeVersion
+import app.girin.trn.api.lib.transactionpayment.RuntimeVersion
 import app.girin.trn.util.bnToU8a
 import app.girin.trn.util.compactToU8a
 import io.ethers.core.types.Address
